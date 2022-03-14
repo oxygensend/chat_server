@@ -6,3 +6,47 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.messages {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.yours {
+    align-items: flex-start;
+}
+
+.yours .message {
+    margin-right: 25%;
+    background-color: #eee;
+    position: relative;
+}
+
+
+.mine {
+    align-items: flex-end;
+}
+
+.mine .message {
+    color: white;
+    margin-left: 25%;
+    background: #0b5ed7;
+    position: relative;
+}
+

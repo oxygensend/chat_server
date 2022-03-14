@@ -2,6 +2,7 @@ version: '3.7'
 services:
   db:
     image: mysql
+    container_name: db
     restart: always
     ports:
       - "3306:3306"
@@ -9,5 +10,4 @@ services:
       MYSQL_DATABASE: 'chat_db'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_ROOT_PASSWORD: ""
-    volumes:
-      - ./db:/var/lib/mysql
+

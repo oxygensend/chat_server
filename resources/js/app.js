@@ -21,6 +21,8 @@ window.Vue = require('vue').default;
 
 Vue.component('choose-room', require('./components/ChooseRoom.vue').default);
 Vue.component('create-room', require('./components/CreateRoom.vue').default);
+Vue.component('users-panel', require('./components/UsersPanel.vue').default);
+Vue.component('chat-panel', require('./components/ChatPanel.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
