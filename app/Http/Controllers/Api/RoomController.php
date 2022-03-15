@@ -8,6 +8,7 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class RoomController extends Controller {
 
@@ -28,6 +29,7 @@ class RoomController extends Controller {
             $password = null;
 
         $room = Room::create([
+            'id' => uniqid(),
             'name' => $attributes['name'],
             'password' => $password,
             'require_password' => (bool)$password,
@@ -39,19 +41,18 @@ class RoomController extends Controller {
     }
 
 
-    public function connect(Request $request){
+    public function connect(Room $room, Request $request){
         $attributes = $request->validate([
             'password' => ['string', 'min:5'],
         ]);
 
-        $room = Room::findorFail($request->room_id);
-
         if($room->require_password){
-            if(password_verify($attributes['password'], $room->password)){
-
+            if(!password_verify($attributes['password'], $room->password)){
+                throw ValidationException::withMessages(['password' => 'Invalid password']);
             }
         }
 
+        return [ 'redirect' => route('show', $room->id)];
 
 
     }

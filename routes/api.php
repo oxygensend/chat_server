@@ -18,5 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::apiResource('rooms', 'App\Http\Controllers\Api\RoomController')->middleware('auth:api');
+Route::patch('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@connect')->name('connect')->middleware('auth:api');

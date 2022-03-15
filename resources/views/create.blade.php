@@ -3,7 +3,7 @@
 @section('content')
     <x-form-card  header="Create room">
 
-        <create-room />
+        <create-room url="{{ route('home') }}" />
 
     </x-form-card>
 @endsection

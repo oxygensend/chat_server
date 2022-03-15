@@ -1,7 +1,7 @@
 <template>
     <div class=" h-100">
         <div class="border-bottom">
-            <h3 class="text-center">Samotne Wilki</h3>
+            <h3 class="text-center">{{ name }}</h3>
         </div>
         <div class="chat overflow-auto position-relative h-75">
             <div class="mine messages">
@@ -49,10 +49,18 @@
             </div>
 
         </div>
-        <div class=" mt-1 input-group">
+        <div class="df mt-1 input-group">
             <textarea class="form-control shadow-none bg-white" style="resize:none" rows="4"
                       aria-label="With textarea"></textarea>
             <button class="btn btn-primary" type="button">Send</button>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    props:{
+        name: String
+    }
+}
+</script>

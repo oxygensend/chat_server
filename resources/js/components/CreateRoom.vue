@@ -7,10 +7,10 @@
                        id="name"
                        class="form-control"
                        v-model="fields.name"
-                       required autofocus>
+                       required>
                <div class="alert text-danger " v-if="errors && errors.name">
                     {{ errors.name[0] }}
-                </div>
+            </div>
             </div>
 
             <div class="mb-3 form-check">
@@ -38,14 +38,19 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Create</button>
-
+            <div class="position-relative">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a :href=url class="link-primary position-absolute bottom-0 end-0">Choose existing</a>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        url: String
+    },
     data() {
         return {
             password_selected: false,

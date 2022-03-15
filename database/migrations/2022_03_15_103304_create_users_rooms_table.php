@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('users_rooms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('room_id');
+            $table->string('room_id');
+            $table->foreign('room_id')->references('id')->on('rooms')->cascadeOnDelete();
             $table->timestamps();
         });
     }
