@@ -22,4 +22,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\RoomController::class, 'choose'])->name('home');
 Route::get('/create', [App\Http\Controllers\RoomController::class, 'create'])->name('create');
-Route::get('/index', [App\Http\Controllers\RoomController::class, 'index'])->name('index');
+Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
+Route::post('/create', [App\Http\Controllers\RoomController::class, 'store'])->name('store');

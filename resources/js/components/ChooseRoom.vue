@@ -2,11 +2,21 @@
     <div class="w-100">
         <form>
             <div class="mb-3">
-                <label for="room" class="form-label">Select room</label>
-                <select id="room" class="form-select"></select>
+                <label for="room_id" class="form-label">Select room</label>
+                <select id="room_id"
+                        name="room_id"
+                        class="form-select"
+                        v-model="fields.room_id"
+                        @change="cascade"
+                        >
+                    <option v-for="room in rooms"
+                            :value="room.id">
+                        {{ room.name }}
+                    </option>
+                </select>
             </div>
-            <!--            Dodac show dopiero gdy pokoj wybrany-->
-            <div class="mb-3">
+
+            <div v-show="password" class="mb-3">
                 <label for="inputPassword5" class="form-label">Password</label>
                 <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
             </div>
@@ -23,6 +33,24 @@
     export default {
         props: {
             url: String
+        },
+        data() {
+            return {
+                rooms: null,
+                fields: {},
+                password: false
+            }
+        },
+        mounted() {
+          axios.get('/api/rooms').then(response => {
+              this.rooms = response.data.data
+          })
+        },
+        methods: {
+            cascade(e) {
+              const r = this.rooms.find(room => room.id == e.target.value);
+              this.password = !!r.password_require;
+            }
         }
     }
 </script>

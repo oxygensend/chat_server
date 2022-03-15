@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller {
 
@@ -28,11 +31,32 @@ class RoomController extends Controller {
 
     public function create()
     {
+
         return view('create');
     }
 
-    public function index()
+    public function store(Request $request)
     {
-        return view('index');
+        $attributes = $request->validate([
+            'name' => ['string', 'min:5', 'max:20', 'required'],
+            'password' => [ 'required','string', 'min:5'],
+        ]);
+
+        $room = Room::create([
+            'name' => $attributes['name'],
+            'password' => $attributes['password'] ?? '' ,
+            'user_id' => Auth::id(),
+        ]);
+
+        $room->users()->attach(Auth::id());
+
+        return redirect(route('index'));
+
+    }
+
+    public function show(Room $room)
+    {
+
+    return view('show', [ 'room' => $room]);
     }
 }
