@@ -51,9 +51,16 @@ class RoomController extends Controller {
                 throw ValidationException::withMessages(['password' => 'Invalid password']);
             }
         }
+        if(!$room->users->contains('id', Auth::id()))
+            $room->users()->attach(Auth::id());
+
 
         return [ 'redirect' => route('show', $room->id)];
 
+    }
 
+    public function disconnect(Room $room){
+        // tutaj jakies usuniecie tokenu i wyslanie eventu
+        return[ 'redirect' => route('home')];
     }
 }

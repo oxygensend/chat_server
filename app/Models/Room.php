@@ -25,4 +25,8 @@ class Room extends Model {
             'user_id'
         )->withTimestamps();
     }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
+    }
 }

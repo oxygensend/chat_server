@@ -18,10 +18,11 @@
 
             </ul>
 
+            <a class="link-primary position-absolute bottom-0" href="{{ route('disconnect', $room) }}">Leave room</a>
         </div>
         <div class="card border-0  border-start rounded-0 h-100 w-75">
 
-           <chat-panel name="{{ $room->name }}"/>
+           <chat-panel :room='@json($room)'/>
         </div>
     </div>
 @endsection

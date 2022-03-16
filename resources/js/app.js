@@ -30,6 +30,11 @@ Vue.component('chat-panel', require('./components/ChatPanel.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+Pusher.logToConsole = true;
+
+
+
 const app = new Vue({
     el: '#app',
 });
