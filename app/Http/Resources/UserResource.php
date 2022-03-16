@@ -2,14 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
-class MessageResource extends JsonResource
+class UserResource extends JsonResource
 {
-
-
     /**
      * Transform the resource into an array.
      *
@@ -19,9 +15,8 @@ class MessageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'text' => $this->text,
-            'user' => new UserResource(User::findOrFail($this->user_id)),
-            'created_at' => $this->created_at,
+            'id' => $this->id,
+            'name' => $this->name,
         ];
     }
 }

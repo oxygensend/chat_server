@@ -3,13 +3,14 @@
         <div class="border-bottom">
             <h3 class="text-center">{{ room.name }}</h3>
         </div>
-        <div class="chat overflow-auto position-relative h-75">
-            <div v-for="message in messages" v-bind:class="(message.mine) ? 'mine messages' : ' yours messages'">
-                <small class="px-2 text-muted">{{ message.user }}</small>
+        <div ref="messages" class="chat overflow-auto position-relative h-75">
+            <div v-for="message in messages"
+                 v-bind:class="(user == message.user.id) ? 'mine messages' : ' yours messages'">
+                <small class="px-2 text-muted">{{ message.user.name }}</small>
                 <div class="message">
                     {{ message.text }}
                 </div>
-                 <small class="px-2" style="font-size:10px">{{ message.created_at }}</small>
+                <small class="px-2" style="font-size:10px">{{ message.created_at }}</small>
             </div>
 
         </div>
@@ -28,9 +29,11 @@
 </template>
 
 <script>
+import {channel} from '../app'
 export default {
     props: {
-        room: Object
+        room: Object,
+        user: String,
     },
 
     data() {
@@ -46,31 +49,34 @@ export default {
         });
     },
     created() {
-        this.subscribe()
+        this.listen();
+    },
+    watch: {
+        messages: function () {
+            this.$nextTick(() => this.scrollToEnd());
+        }
     },
     methods: {
-        subscribe(){
-            let pusher = new Pusher('0088f26dd9d16f7ccf5f', {
-                cluster: 'eu'
-            });
-            let channel = pusher.subscribe('my-channel');
-            channel.bind('my-event', (data) => {
-                if(data.room === this.room.id )
+        listen() {
+            channel.bind('message-reciver', (data) => {
+                if (data.room === this.room.id)
                     this.messages.push(data);
             });
         },
         sendMessage() {
             axios.post(`/api/rooms/${this.room.id}/messages`, this.fields).then(response => {
-                this.fields = {}
+                this.fields = {};
             }).catch(err => {
                 if (err.response.status === 422) {
                     this.errors = err.response.data.errors;
                 }
                 console.log('Error');
             });
-
-
         },
+
+        scrollToEnd() {
+            this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
+        }
 
     }
 };

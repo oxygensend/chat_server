@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\MessageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
+use App\Http\Resources\UserResource;
 use App\Models\Message;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class MessageController extends Controller {
         $request->validate([
             'text' => ['String', 'required'],
         ]);
-        event(new MessageEvent($request->text, Auth::user()->name,  $room->id, 'now'));
+        event(new MessageEvent($request->text, new UserResource(Auth::user()),  $room->id, 'now'));
 
         return Message::create([
             'text' => $request->text,

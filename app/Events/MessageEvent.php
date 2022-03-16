@@ -21,7 +21,7 @@ class MessageEvent implements ShouldBroadcast
      */
     public $text;
     public $user;
-    public $created_at;
+public $created_at;
     public $room;
     public function __construct($text, $user,$room, $created_at)
     {
@@ -42,6 +42,6 @@ class MessageEvent implements ShouldBroadcast
         return ['my-channel'];
     }
     public function broadcastAs(){
-        return 'my-event';
+        return 'message-reciver';
     }
 }

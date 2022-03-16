@@ -32,9 +32,14 @@ Vue.component('chat-panel', require('./components/ChatPanel.vue').default);
 
 
 Pusher.logToConsole = true;
-
+let pusher = new Pusher('0088f26dd9d16f7ccf5f', {
+    cluster: 'eu'
+});
+exports.channel = pusher.subscribe('my-channel');
 
 
 const app = new Vue({
     el: '#app',
+
+
 });

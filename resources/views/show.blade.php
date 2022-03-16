@@ -22,7 +22,7 @@
         </div>
         <div class="card border-0  border-start rounded-0 h-100 w-75">
 
-           <chat-panel :room='@json($room)'/>
+           <chat-panel :room='@json($room)' user="{{\Illuminate\Support\Facades\Auth::id()}}"/>
         </div>
     </div>
 @endsection
