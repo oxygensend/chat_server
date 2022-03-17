@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoomResource;
+use App\Http\Resources\RoomUserResource;
+use App\Http\Resources\UserResource;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -35,7 +39,11 @@ class RoomController extends Controller {
             'require_password' => (bool)$password,
             'user_id' => Auth::id()]);
 
-        $room->users()->attach(Auth::id());
+        DB::table('users_rooms')->insert([
+            'user_id' => Auth::id(),
+            'room_id' => $room->id,
+            'online' => true,
+        ]);
 
         return $room;
     }
@@ -52,8 +60,20 @@ class RoomController extends Controller {
             }
         }
         if(!$room->users->contains('id', Auth::id()))
-            $room->users()->attach(Auth::id());
+            DB::table('users_rooms')->insert([
+                'user_id' => Auth::id(),
+                'room_id' => $room->id,
+                'online' => true,
+            ]);
+        else {
+            DB::table('users_rooms')
+                ->where('user_id', Auth::id())
+                ->where('room_id', $room->id)
+                ->update(['online' => true]);
 
+        }
+
+        event(new UserEvent( new RoomUserResource(Auth::user())));
 
         return [ 'redirect' => route('show', $room->id)];
 
@@ -61,6 +81,13 @@ class RoomController extends Controller {
 
     public function disconnect(Room $room){
         // tutaj jakies usuniecie tokenu i wyslanie eventu
+        DB::table('users_rooms')
+            ->where('user_id', Auth::id())
+            ->where('room_id', $room->id)
+            ->update(['online' => false]);
+
+        event(new UserEvent( new RoomUserResource(Auth::user())));
+
         return[ 'redirect' => route('home')];
     }
 }

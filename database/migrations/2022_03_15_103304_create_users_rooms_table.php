@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('room_id');
             $table->foreign('room_id')->references('id')->on('rooms')->cascadeOnDelete();
+            $table->boolean('online');
             $table->timestamps();
         });
     }

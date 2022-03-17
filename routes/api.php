@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResource('rooms', 'App\Http\Controllers\Api\RoomController')->middleware('auth:api');
 Route::patch('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@connect')->name('connect')->middleware('auth:api');
-Route::delete('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@disconnect')->name('disconnect')->middleware('auth:api');
+Route::patch('/rooms/{room}/disconnect', 'App\Http\Controllers\Api\RoomController@disconnect')->name('disconnect')->middleware('auth:api');
 Route::get('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@index')->middleware('auth:api');
 Route::post('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@store')->middleware('auth:api');
+Route::get('/rooms/{room}/users', 'App\Http\Controllers\Api\UserController@index')->middleware('auth:api');
+
