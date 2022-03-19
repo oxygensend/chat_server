@@ -7,15 +7,16 @@
 
         <ul class="list-group mt-4 ">
             <li class="d-flex justify-content-between align-items-center overflow-hidden mb-1"
-                v-for="user in users">
+                v-for="user in sortedUsers">
                 {{ user.name }}
-                <span  v-bind:class="(user.online == true) ? 'bg-success' : 'bg-danger' "  class="p-2  translate-middle-x rounded-circle"></span>
+                <span v-bind:class="(user.online == true) ? 'bg-success' : 'bg-danger' "
+                      class="p-2  translate-middle-x rounded-circle"></span>
             </li>
 
         </ul>
 
-<!--        do poprawy na form-->
-        <a class="link-primary position-absolute bottom-0" @click="disconnect" href="#">Leave room</a>
+        <!--        do poprawy na form-->
+            <button class="btn btn-danger position-absolute bottom-0 mb-4 w-75" @click="disconnect" href="">Leave room</button>
     </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
     },
     data() {
         return {
-            users: {},
+            users: [],
         };
     },
     created() {
@@ -40,28 +41,40 @@ export default {
             this.users = response.data.data;
         });
     },
+    computed: {
+        sortedUsers: function () {
+            function compare(a, b) {
+                if (a.online < b.online)
+                    return 1;
+                else
+                    return 0;
+            }
+
+            return this.users.sort(compare);
+        }
+    },
     methods: {
         listen() {
             channel.bind('active-users', (data) => {
                 if (data.user.online == true) {
-                   this.setUserOnline(true, data);
+                    this.setUserOnline(true, data);
+                } else {
+                    this.setUserOnline(false, data);
                 }
-                else {
-                   this.setUserOnline(false, data);
-                }
-                if (!this.users.some(el=> el.id === data.user.id)) this.users.push(data.user);
+                if (!this.users.some(el => el.id === data.user.id)) this.users.push(data.user);
 
             });
         },
-        disconnect(){
-            axios.patch(`/api/rooms/${this.room.id}/disconnect`).then(response => {
-               window.location = response.data.redirect;
-            });
+        disconnect() {
+            if (window.confirm('Really wanna leave?')) {
+                axios.patch(`/api/rooms/${this.room.id}/disconnect`).then(response => {
+                    window.location = response.data.redirect;
+                });
+            }
         },
 
-        setUserOnline(online, data){
+        setUserOnline(online, data) {
             this.users.forEach((u, i) => {
-                console.log('ll');
                 if (u.id === data.user.id && u.online == !online) {
                     this.users[i].online = online;
                 }

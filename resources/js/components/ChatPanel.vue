@@ -1,9 +1,9 @@
 <template>
-    <div class=" h-100">
+    <div class="h-100">
         <div class="border-bottom">
             <h3 class="text-center">{{ room.name }}</h3>
         </div>
-        <div ref="messages" class="chat overflow-auto position-relative h-75">
+        <div ref="messages" class="chat overflow-auto h-75">
             <div v-for="message in messages"
                  v-bind:class="(user == message.user.id) ? 'mine messages' : ' yours messages'">
                 <small class="px-2 text-muted">{{ message.user.name }}</small>
@@ -14,7 +14,7 @@
             </div>
 
         </div>
-        <div class=" mt-1 input-group">
+        <div class="position-absolute bottom-0 end-0   mt-1 input-group" >
             <textarea class="form-control shadow-none bg-white"
                       style="resize:none" rows="4"
                       aria-label="With textarea"
@@ -73,7 +73,6 @@ export default {
                 console.log('Error');
             });
         },
-
         scrollToEnd() {
             this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
         }
