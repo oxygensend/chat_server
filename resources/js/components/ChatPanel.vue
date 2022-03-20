@@ -4,6 +4,7 @@
             <h3 class="text-center">{{ room.name }}</h3>
         </div>
         <div ref="messages" class="chat overflow-auto h-75">
+            <div v-observe-visibility="handleScrolledTop"></div>
             <div v-for="message in messages"
                  v-bind:class="(user == message.user.id) ? 'mine messages' : ' yours messages'">
                 <small class="px-2 text-muted">{{ message.user.name }}</small>
@@ -14,7 +15,7 @@
             </div>
 
         </div>
-        <div class="position-absolute bottom-0 end-0   mt-1 input-group" >
+        <div class="position-absolute bottom-0 end-0   mt-1 input-group">
             <textarea class="form-control shadow-none bg-white"
                       style="resize:none" rows="4"
                       aria-label="With textarea"
@@ -29,7 +30,8 @@
 </template>
 
 <script>
-import {channel} from '../app'
+import {channel} from '../app';
+
 export default {
     props: {
         room: Object,
@@ -41,12 +43,12 @@ export default {
             info: [],
             messages: [],
             fields: {},
+            page: 1,
+            lastPage: 1
         };
     },
     mounted() {
-        axios.get(`/api/rooms/${this.room.id}/messages`).then(response => {
-            this.messages = response.data.data;
-        });
+        this.fetch();
     },
     created() {
         this.listen();
@@ -57,6 +59,11 @@ export default {
         }
     },
     methods: {
+        async fetch() {
+            const response = await axios.get(`/api/rooms/${this.room.id}/messages?page=${this.page}`);
+            this.messages.unshift(...response.data.data);
+            this.lastPage = response.data.meta.last_page;
+        },
         listen() {
             channel.bind('message-reciver', (data) => {
                 if (data.room === this.room.id)
@@ -74,7 +81,23 @@ export default {
             });
         },
         scrollToEnd() {
-            this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
+            // this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
+        },
+        scrollToLastEl() {
+            // this.$refs['messages'].scrollTop = this.$refs['messages'].firstElementChild.offsetTop;
+        },
+        handleScrolledTop(isVisible) {
+            if (!isVisible) return;
+            if (this.page >= this.lastPage) return;
+
+            this.page++;
+            let firstEl = this.$refs['messages'].children.item(1);
+
+            setTimeout(async () => {
+                await this.fetch();
+                this.$refs['messages'].scrollTop = firstEl.offsetTop * 10;
+            }, 300);
+
         }
 
     }
