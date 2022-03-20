@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 class RoomController extends Controller {
@@ -59,6 +60,13 @@ class RoomController extends Controller {
                 throw ValidationException::withMessages(['password' => 'Invalid password']);
             }
         }
+
+        if(!Session::get('room_token'))
+            Session::put('room_token', 'test');
+        else{
+            throw ValidationException::withMessages(['password' => 'helo']);
+        }
+
         if(!$room->users->contains('id', Auth::id()))
             DB::table('users_rooms')->insert([
                 'user_id' => Auth::id(),
@@ -72,6 +80,8 @@ class RoomController extends Controller {
                 ->update(['online' => true]);
 
         }
+
+
 
         event(new UserEvent( new RoomUserResource(Auth::user())));
 
@@ -88,6 +98,7 @@ class RoomController extends Controller {
 
         event(new UserEvent( new RoomUserResource(Auth::user())));
 
+        Session::forget('room_token');
         return[ 'redirect' => route('home')];
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RoomController extends Controller {
 
@@ -56,7 +57,6 @@ class RoomController extends Controller {
 
     public function show(Room $room)
     {
-
     return view('show', [ 'room' => $room]);
     }
 }

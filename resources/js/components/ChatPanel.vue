@@ -55,7 +55,8 @@ export default {
     },
     watch: {
         messages: function () {
-            this.$nextTick(() => this.scrollToEnd());
+            if(this.$refs.messages.scrollTop === this.$refs.messages.scrollTopMax)
+                this.$nextTick(() => this.scrollToEnd());
         }
     },
     methods: {
@@ -66,8 +67,12 @@ export default {
         },
         listen() {
             channel.bind('message-reciver', (data) => {
+
                 if (data.room === this.room.id)
                     this.messages.push(data);
+
+
+
             });
         },
         sendMessage() {
@@ -81,11 +86,9 @@ export default {
             });
         },
         scrollToEnd() {
-            // this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
+            this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
         },
-        scrollToLastEl() {
-            // this.$refs['messages'].scrollTop = this.$refs['messages'].firstElementChild.offsetTop;
-        },
+
         handleScrolledTop(isVisible) {
             if (!isVisible) return;
             if (this.page >= this.lastPage) return;
