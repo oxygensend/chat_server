@@ -16,9 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
+//Auth
+Route::post('login', 'App\Http\Controllers\Auth\LoginController@login');
+Route::get('login',  'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
+Route::post('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+Route::get('register', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'App\Http\Controllers\Auth\RegisterController@register');
 
 Route::get('/', [App\Http\Controllers\RoomController::class, 'choose'])->name('home');
 Route::get('/create', [App\Http\Controllers\RoomController::class, 'create'])->name('create');
 Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
-Route::post('/create', [App\Http\Controllers\RoomController::class, 'store'])->name('store');

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1647971914635" clover="3.2.0">
+  <project timestamp="1647971914635" name="All files">
+    <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0" elements="2" coveredelements="0" complexity="0" loc="1" ncloc="1" packages="1" files="1" classes="1"/>
+    <file name="Counter.vue" path="/home/szymon/Documents/Dev/chat_server/resources/js/components/Counter.vue">
+      <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <line num="12" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>

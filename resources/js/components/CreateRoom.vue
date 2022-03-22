@@ -55,7 +55,6 @@ export default {
         return {
             password_selected: false,
             fields: {},
-            success: false,
             errors: {}
         };
     },
@@ -69,7 +68,7 @@ export default {
                 this.fields = {};
                 this.success = true;
                 this.erros = {};
-                window.location = '/' + response.data.id;
+                window.location = '/' + response.data.data.id;
             }).catch(err => {
                 if (err.response.status === 422) {
                     this.errors = err.response.data.errors;

@@ -53,9 +53,7 @@ export default {
         };
     },
     mounted() {
-        axios.get('/api/rooms').then(response => {
-            this.rooms = response.data.data;
-        });
+       this.rooms = this.getRooms();
     },
     methods: {
         cascade(e) {
@@ -75,6 +73,11 @@ export default {
 
                     console.log('Error');
                 });
+        },
+
+        async getRooms() {
+            const res = await axios.get('/api/rooms');
+            return res.data.data
         }
     }
 };

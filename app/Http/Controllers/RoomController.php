@@ -36,24 +36,6 @@ class RoomController extends Controller {
         return view('create');
     }
 
-    public function store(Request $request)
-    {
-        $attributes = $request->validate([
-            'name' => ['string', 'min:5', 'max:20', 'required'],
-            'password' => [ 'required','string', 'min:5'],
-        ]);
-
-        $room = Room::create([
-            'name' => $attributes['name'],
-            'password' => $attributes['password'] ?? '' ,
-            'user_id' => Auth::id(),
-        ]);
-
-        $room->users()->attach(Auth::id());
-
-        return redirect(route('index'));
-
-    }
 
     public function show(Room $room)
     {
