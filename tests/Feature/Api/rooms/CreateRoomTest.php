@@ -71,7 +71,7 @@ class CreateRoomTest extends TestCase {
         $this->assertDatabaseHas('users_rooms', [
             'user_id' => Auth::id(),
             'room_id' => $id,
-            'online' => true
+            'online' => true,
         ]);
     }
 
@@ -139,6 +139,7 @@ class CreateRoomTest extends TestCase {
         $response->assertStatus(422);
 
     }
+
     public function test_if_proper_error_message_is_returned_when_name_is_too_short()
     {
         $response = $this->actingAs($this->user, 'api')->postJson('/api/rooms', [
@@ -149,6 +150,7 @@ class CreateRoomTest extends TestCase {
         $response->assertJsonFragment(["message" => "The name must be at least 5 characters."]);
 
     }
+
     public function test_if_422_status_when_password_is_no_longer_than_5_characters()
     {
         $response = $this->actingAs($this->user, 'api')->postJson('/api/rooms', [
@@ -159,6 +161,7 @@ class CreateRoomTest extends TestCase {
         $response->assertStatus(422);
 
     }
+
     public function test_if_proper_error_message_is_returned_when_password_is_to_short()
     {
         $response = $this->actingAs($this->user, 'api')->postJson('/api/rooms', [
