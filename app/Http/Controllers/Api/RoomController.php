@@ -46,7 +46,7 @@ class RoomController extends Controller {
             'online' => true,
         ]);
 
-        return $room;
+        return new RoomResource($room);
     }
 
 

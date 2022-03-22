@@ -5,9 +5,19 @@ services:
     container_name: db
     restart: always
     ports:
-      - "3306:3306"
+      - "3000:3306"
     environment:
       MYSQL_DATABASE: 'chat_db'
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
       MYSQL_ROOT_PASSWORD: ""
 
+  db_test:
+    image: mysql
+    container_name: db_test
+    restart: always
+    ports:
+        - "3001:3306"
+    environment:
+        MYSQL_DATABASE: 'test_chat_db'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        MYSQL_ROOT_PASSWORD: ""
