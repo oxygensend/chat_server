@@ -7,6 +7,8 @@ use App\Http\Requests\RoomConnectRequest;
 use App\Http\Resources\RoomUserResource;
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class RoomObserver {
@@ -35,7 +37,11 @@ class RoomObserver {
                 throw ValidationException::withMessages(['password' => 'Invalid password']);
             }
         }
-
+        if (!Cookie::get('room_token')) {
+            setcookie('room_token', Hash::make($room->id));
+        } else if (!password_verify($room->id, $_COOKIE['room_token'])) {
+            dd('');
+        }
         event(new UserEvent( new RoomUserResource(Auth::user())));
     }
 
@@ -47,6 +53,7 @@ class RoomObserver {
      */
     public function deleted(Room $room)
     {
+        setcookie("room_token", "", time() - 3600);
         event(new UserEvent( new RoomUserResource(Auth::user())));
     }
 

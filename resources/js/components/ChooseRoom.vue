@@ -30,7 +30,9 @@
                     {{ errors.password[0] }}
                 </div>
             </div>
-
+            <div class="alert text-danger " v-if="errors && errors.room">
+                {{ errors.room[0] }}
+            </div>
             <div class="position-relative">
                 <button type="submit" class="btn btn-primary">Connect</button>
                 <a :href=url class="link-primary position-absolute bottom-0 end-0">Create new one</a>

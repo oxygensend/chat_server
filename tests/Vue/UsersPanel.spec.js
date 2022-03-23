@@ -20,7 +20,8 @@ describe('ChatPanel.vue', () => {
     beforeAll(()=> {
 
         getRoomsMock = jest.spyOn(UsersPanel.methods, 'getRooms').mockReturnValue(mockUsers);
-        wrapper = mount(UsersPanel);
+        wrapper = mount(UsersPanel, {
+        });
 
     })
 
