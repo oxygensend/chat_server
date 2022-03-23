@@ -36,10 +36,8 @@ export default {
     created() {
         this.listen();
     },
-    mounted() {
-        axios.get(`/api/rooms/${this.room.id}/users`).then(response => {
-            this.users = response.data.data;
-        });
+     async mounted() {
+        this.users = await this.getUsers();
     },
     computed: {
         sortedUsers: function () {
@@ -67,7 +65,7 @@ export default {
         },
         disconnect() {
             if (window.confirm('Really wanna leave?')) {
-                axios.patch(`/api/rooms/${this.room.id}/disconnect`).then(response => {
+                axios.delete(`/api/rooms/${this.room.id}`).then(response => {
                     window.location = response.data.redirect;
                 });
             }
@@ -79,6 +77,12 @@ export default {
                     this.users[i].online = online;
                 }
             });
+        },
+
+        async getUsers(){
+            const res = await axios.get(`/api/rooms/${this.room.id}/users`);
+            return res.data.data;
+
         }
     }
 };

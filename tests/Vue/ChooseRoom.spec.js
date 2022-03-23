@@ -2,7 +2,7 @@ import {mount} from '@vue/test-utils';
 import ChooseRoom from '../../resources/js/components/ChooseRoom.vue';
 
 require('jsdom-global');
-describe('Counter.vue', () => {
+describe('ChooseRoom.vue', () => {
     let wrapper;
     let getRoomsMock;
 

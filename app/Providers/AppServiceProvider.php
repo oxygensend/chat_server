@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Room;
+use App\Observers\RoomObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Model::unguard();
+        Room::observe(RoomObserver::class);
     }
 }

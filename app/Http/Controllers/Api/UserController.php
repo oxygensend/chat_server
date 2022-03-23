@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    /**
+     * @param Room $room
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index(Room $room){
         return RoomUserResource::collection($room->users()->orderBy('online', 'desc')->get());
     }

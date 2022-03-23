@@ -52,8 +52,8 @@ export default {
             errors: {}
         };
     },
-    mounted() {
-       this.rooms = this.getRooms();
+    async mounted() {
+       this.rooms = await this.getRooms();
     },
     methods: {
         cascade(e) {
