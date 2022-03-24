@@ -12,6 +12,11 @@ class Room extends Model {
     protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $observables = ['connected'];
+
+    public function connected(){
+        $this->fireModelEvent('connected');
+    }
     public function admin()
     {
         return $this->belongsTo(User::class, 'user_id');

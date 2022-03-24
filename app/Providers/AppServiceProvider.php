@@ -28,6 +28,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Model::unguard();
-        Room::observe(RoomObserver::class);
     }
 }

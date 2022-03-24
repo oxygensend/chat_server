@@ -9,6 +9,7 @@ use App\Http\Requests\RoomStoreRequest;
 use App\Http\Resources\RoomResource;
 use App\Http\Resources\RoomUserResource;
 use App\Http\Resources\UserResource;
+use App\Http\Services\RoomService;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -40,7 +41,6 @@ class RoomController extends Controller {
      */
     public function store(RoomStoreRequest $request)
     {
-
         $room = Room::create([
             'id' => uniqid(),
             'name' => $request->get('name'),
@@ -62,21 +62,11 @@ class RoomController extends Controller {
      * @param RoomConnectRequest $request
      * @return array
      */
-    public function connect(Room $room, RoomConnectRequest $request)
+    public function connect(Room $room, RoomConnectRequest $request, RoomService $roomService)
     {
 
-        //TODO stworzyc exception, naprawic observatory, dolozyc kontroller do przycisku back
-        if ($room->require_password) {
-            if (!password_verify($request->get('password'), $room->password)) {
-                throw ValidationException::withMessages(['password' => 'Invalid password']);
-            }
-        }
-        if (!Cookie::get('room_token')) {
-            setcookie('room_token', Hash::make($room->id));
-        } else if (!password_verify($room->id, $_COOKIE['room_token'])) {
-            throw ValidationException::withMessages(['room' => 'You are already connected to room.']);
-        }
-        event(new UserEvent( new RoomUserResource(Auth::user())));
+        $roomService->checkPassword($room, $request->get('password'));
+
 
 
         if (!$room->users->contains('id', Auth::id()))
@@ -93,7 +83,7 @@ class RoomController extends Controller {
 
         }
 
-
+        event(new UserEvent( new RoomUserResource(Auth::user(), $room->id)));
         return ['redirect' => route('show', $room->id)];
 
     }
@@ -102,16 +92,17 @@ class RoomController extends Controller {
      * @param Room $room
      * @return array
      */
-    public function disconnect(Room $room)
+    public function disconnect(Room $room, RoomService $roomService)
     {
+
         // tutaj jakies usuniecie tokenu i wyslanie eventu
         DB::table('users_rooms')
             ->where('user_id', Auth::id())
             ->where('room_id', $room->id)
             ->update(['online' => false]);
 
-        setcookie("room_token", "", time() - 3600);
-        event(new UserEvent( new RoomUserResource(Auth::user())));
+        $roomService->disconnect($room);
+
         return ['redirect' => route('home')];
     }
 }

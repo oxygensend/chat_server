@@ -17,6 +17,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Room $room){
+
         return RoomUserResource::collection($room->users()->orderBy('online', 'desc')->get());
+
     }
 }

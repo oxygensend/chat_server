@@ -37,7 +37,8 @@ export default {
         this.listen();
     },
      async mounted() {
-        this.users = await this.getUsers();
+        const res = await axios.get(`/api/rooms/${this.room.id}/users`);
+        this.users = res.data.data
     },
     computed: {
         sortedUsers: function () {
@@ -81,6 +82,7 @@ export default {
 
         async getUsers(){
             const res = await axios.get(`/api/rooms/${this.room.id}/users`);
+            console.log(res.data.data);
             return res.data.data;
 
         }
