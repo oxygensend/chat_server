@@ -1,5 +1,30 @@
 # chat_server
 
 
+Chat application created for learning purpose and fun. 
+Application requires authorization. App provides rooms with chat, rooms can be public or private. You connecting to room by yourself. 
+After connecting the **room_token** is stored, and until
+leaving the room or logging out you cannot connect to 
+another room. There is realtime user panel in room, 
+displays which user is connected/disconnected. 
+Chat uses lazy_loading, means that  all messages are not stored on the server, but are automaticly get form api when users scroll up.
 
-![image](https://user-images.githubusercontent.com/74931215/158072948-87034c04-1b8f-4461-866d-fc5812c7172c.png)
+
+## Stack
+    - PHP
+    - Laravel
+    - Vue.js
+    - Pusher
+    - Bootstrap
+    - MySQL
+    - Docker
+
+## Tests
+    - PHPUnit
+    - Jest
+    - vue/test-utils
+
+To run tests:
+ -  PHP
+`php aritsan test / vendor/bin/phpunit`
+ - Vue `npm test`

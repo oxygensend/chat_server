@@ -18,10 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('rooms', 'App\Http\Controllers\Api\RoomController')->middleware('auth:api');
-Route::patch('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@connect')->name('connect')->middleware('auth:api')->middleware('room-token');
-Route::delete('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@disconnect')->name('disconnect')->middleware('auth:api');
-Route::get('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@index');
-Route::post('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@store')->middleware('auth:api');
-Route::get('/rooms/{room}/users', 'App\Http\Controllers\Api\UserController@index')->middleware('auth:api');
-
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('rooms', 'App\Http\Controllers\Api\RoomController');
+    Route::patch('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@connect')->name('connect')->middleware('room-token');
+    Route::delete('/rooms/{room}', 'App\Http\Controllers\Api\RoomController@disconnect')->name('disconnect');
+    Route::get('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@index');
+    Route::post('/rooms/{room}/messages', 'App\Http\Controllers\Api\MessageController@store');
+    Route::get('/rooms/{room}/users', 'App\Http\Controllers\Api\UserController@index');
+});
