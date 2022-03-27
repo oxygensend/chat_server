@@ -20,12 +20,13 @@ class RoomToken
      */
     public function handle(Request $request,Closure $next)
     {
+        if(!$request->cookie('room_token'))
+            return $next($request);
 
-        if (!$request->cookie('room_token')) {
-            setcookie('room_token', Hash::make($request->get('room_id')));
-        } else if (!password_verify($request->get('room_id'),$request->cookie('room_token'))) {
+        if (!password_verify($request->get('room_id'),$request->cookie('room_token'))) {
             throw ValidationException::withMessages(['room' => 'You are already connected to room.']);
         }
+
         return $next($request);
     }
 }

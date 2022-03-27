@@ -43,7 +43,7 @@ class DisconnectRoomTest extends TestCase {
     {
 
         $response = $this->actingAs($this->user, 'api')
-            ->patchJson('api/rooms/' . $this->room->id . "/disconnect");
+            ->deleteJson('api/rooms/' . $this->room->id);
 
         $this->assertArrayHasKey('redirect', (array)json_decode($response->content()));
     }
@@ -57,7 +57,7 @@ class DisconnectRoomTest extends TestCase {
         ]);
 
         $this->actingAs($this->user, 'api')
-            ->patchJson('api/rooms/' . $this->room->id . "/disconnect");
+            ->deleteJson('api/rooms/' . $this->room->id);
 
         $this->assertDatabaseHas('users_rooms', [
             'user_id' => Auth::id(),
@@ -65,4 +65,6 @@ class DisconnectRoomTest extends TestCase {
             'online' => false,
         ]);
     }
+
+
 }

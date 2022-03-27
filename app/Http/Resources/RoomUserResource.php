@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 class RoomUserResource extends JsonResource {
 
 
-    private static $room_id;
+    private  $room_id;
 
     public function __construct($resource, $room_id)
     {
         parent::__construct($resource);
-        self::$room_id = $room_id;
+        $this->room_id = $room_id;
     }
 
     /**

@@ -40,11 +40,7 @@ class ConnectRoomTest extends TestCase {
         ]);
     }
 
-    public function  tearDown(): void{
 
-        setcookie("room_token", "", time() - 3600);
-
-    }
     public function test_if_user_is_redirected_to_login_if_not_logged_in()
     {
         Auth::logout();
@@ -139,7 +135,6 @@ class ConnectRoomTest extends TestCase {
         $response = $this->actingAs($this->user, 'api')
             ->patchJson('api/rooms/' . $room->id, ["name" => $room->name]);
 
-        print_r($response->content());
         $this->assertArrayHasKey('redirect', (array)json_decode($response->content()));
     }
 
@@ -148,5 +143,8 @@ class ConnectRoomTest extends TestCase {
         $response = $this->actingAs($this->user, 'api')
             ->patchJson('api/rooms/' . $this->room->id, ["name" => $this->room->name,
                 "password" => "test_password"]);
+
+        print_r($response->headers);
+        $response->assertCookie('room_token');
     }
 }
