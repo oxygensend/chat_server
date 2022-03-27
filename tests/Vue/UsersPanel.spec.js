@@ -3,8 +3,12 @@ import UsersPanel from '../../resources/js/components/UsersPanel.vue';
 import { PusherMock, PusherFactoryMock } from "pusher-js-mock";
 
 const pusherFactoryMock = new PusherFactoryMock();
-window.Pusher = pusherFactoryMock;
-let pusher = pusherFactoryMock.pusherClient();
+// replace it with the object that is attached to a window
+window.PusherFactory = pusherFactoryMock;
+
+// get the Pusher client reference
+// pusher = pusherFactoryMock.pusherClient();
+
 describe('ChatPanel.vue', () => {
 
 
