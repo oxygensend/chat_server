@@ -70,7 +70,7 @@ class User extends Authenticatable {
     public function createUserRoomRelation($room)
     {
         DB::table('users_rooms')->insert([
-            'user_id' => $this->is,
+            'user_id' => $this->id,
             'room_id' => $room,
             'online' => true,
         ]);
