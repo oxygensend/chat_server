@@ -72,8 +72,6 @@ export default {
                 if (data.room === this.room.id)
                     this.messages.push(data);
 
-
-
             });
         },
         sendMessage() {

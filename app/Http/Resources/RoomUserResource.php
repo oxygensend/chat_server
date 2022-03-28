@@ -37,6 +37,7 @@ class RoomUserResource extends JsonResource {
                 ->where('user_id', $this->id)
                 ->where('room_id',$this->getOriginal()['pivot_room_id'] ?? $this->room_id)
                 ->value('online'),
+            'room' => $this->room_id
         ];
     }
 }

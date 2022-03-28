@@ -16,7 +16,8 @@
         </ul>
 
         <!--        do poprawy na form-->
-            <button class="btn btn-danger position-absolute bottom-0 mb-4 w-75" @click="disconnect" href="">Leave room</button>
+        <button class="btn btn-danger position-absolute bottom-0 mb-4 w-75" @click="disconnect" href="">Leave room
+        </button>
     </div>
 </template>
 
@@ -37,11 +38,11 @@ export default {
         this.listen();
 
     },
-     async mounted() {
+    async mounted() {
         const res = await axios.get(`/api/rooms/${this.room.id}/users`);
-        this.users = res.data.data
+        this.users = res.data.data;
 
-     },
+    },
     computed: {
         sortedUsers: function () {
             function compare(a, b) {
@@ -57,6 +58,9 @@ export default {
     methods: {
         listen() {
             channel.bind('active-users', (data) => {
+                if (data.user.room != this.room.id)
+                    return;
+
                 if (data.user.online == true) {
                     this.setUserOnline(true, data);
                 } else {
@@ -82,7 +86,7 @@ export default {
             });
         },
 
-        async getUsers(){
+        async getUsers() {
             const res = await axios.get(`/api/rooms/${this.room.id}/users`);
             console.log(res.data.data);
             return res.data.data;
