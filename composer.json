@@ -56,7 +56,7 @@
             "php artisan optimize",
             "chmod -R 777 storage",
             "php artisan passport:keys",
-            "php artisan cashe:clear"
+            "php artisan config:clear"
         ]
     },
     "extra": {
