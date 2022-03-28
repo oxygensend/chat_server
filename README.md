@@ -2,7 +2,7 @@
 
 
 ## Check out my app
-` https://russian-messenger.herokuapp.com/login `
+https://russian-messenger.herokuapp.com/login 
 
 Chat application created for learning purpose and fun. 
 Application requires authorization. App provides rooms with chat, rooms can be public or private. You connecting to room by yourself. 
