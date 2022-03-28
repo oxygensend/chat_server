@@ -62,8 +62,9 @@ export default {
     methods: {
         async fetch() {
             const response = await axios.get(`/api/rooms/${this.room.id}/messages?page=${this.page}`);
-            this.messages.unshift(...response.data.data);
+            this.messages.unshift(...response.data.data.reverse());
             this.lastPage = response.data.meta.last_page;
+
         },
         listen() {
             channel.bind('message-reciver', (data) => {

@@ -20,7 +20,7 @@ class MessageController extends Controller {
      */
     public function index(Room $room)
     {
-        return MessageResource::collection(Message::where('room_id', $room->id)->latest()->paginate(10)->reverse());
+        return MessageResource::collection(Message::where('room_id', $room->id)->latest()->paginate(10));
     }
 
     /**

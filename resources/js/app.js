@@ -32,7 +32,6 @@ Vue.component('chat-panel', require('./components/ChatPanel.vue').default);
  */
 
 
-Pusher.logToConsole = true;
 let pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY, {
     cluster: process.env.MIX_PUSHER_APP_CLUSTER
 });
