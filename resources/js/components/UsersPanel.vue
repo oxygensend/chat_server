@@ -35,11 +35,13 @@ export default {
     },
     created() {
         this.listen();
+
     },
      async mounted() {
         const res = await axios.get(`/api/rooms/${this.room.id}/users`);
         this.users = res.data.data
-    },
+
+     },
     computed: {
         sortedUsers: function () {
             function compare(a, b) {
@@ -86,7 +88,10 @@ export default {
             return res.data.data;
 
         }
+
+
     }
+
 };
 
 

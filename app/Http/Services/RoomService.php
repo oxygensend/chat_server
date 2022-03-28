@@ -10,6 +10,7 @@ use Illuminate\Queue\RedisQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 
 class RoomService {
@@ -33,7 +34,11 @@ class RoomService {
     function setToken(Room $room, Request $request): void
     {
         if (!$request->cookie('room_token')) {
-            setcookie('room_token', Hash::make($request->get('room_id')), path: '/');
+            setcookie('room_token', Hash::make($request->get('room_id')), [
+                'path' => '/',
+                'samesite'=> 'lax',
+                'expires' => time()+60*30,
+            ]);
         }
     }
 
@@ -49,6 +54,12 @@ class RoomService {
 
         event(new UserEvent(new RoomUserResource(Auth::user(), $room->id)));
     }
+    function abort( Room $room)
+    {
 
+        Auth::user()->setOnline($room->id, false);
+        $this->disconnect($room);
+
+    }
 
 }

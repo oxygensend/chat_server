@@ -25,4 +25,4 @@ Route::post('register', 'App\Http\Controllers\Auth\RegisterController@register')
 
 Route::get('/', [App\Http\Controllers\RoomController::class, 'choose'])->name('home');
 Route::get('/create', [App\Http\Controllers\RoomController::class, 'create'])->name('create');
-Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show');
+Route::get('/{room}', [App\Http\Controllers\RoomController::class, 'show'])->name('show')->middleware('room-session');

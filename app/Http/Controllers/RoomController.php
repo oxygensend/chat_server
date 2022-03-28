@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\RoomService;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
@@ -48,4 +49,6 @@ class RoomController extends Controller {
     {
     return view('show', [ 'room' => $room]);
     }
+
+
 }

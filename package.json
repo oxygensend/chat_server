@@ -37,6 +37,7 @@
     "dependencies": {
         "core-js": "^3.21.1",
         "regenerator-runtime": "^0.13.9",
+        "vue-cookies": "^1.7.4",
         "vue-observe-visibility": "^1.0.0"
     }
 }
