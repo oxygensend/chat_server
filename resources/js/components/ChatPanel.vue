@@ -55,8 +55,10 @@ export default {
     },
     watch: {
         messages: function () {
-            if(this.$refs.messages.scrollTop === this.$refs.messages.scrollTopMax)
+            const scrollTopMax = this.$refs.messages.scrollHeight - this.$refs.messages.offsetHeight;
+            if (this.$refs.messages.scrollTop === scrollTopMax)
                 this.$nextTick(() => this.scrollToEnd());
+
         }
     },
     methods: {
@@ -83,6 +85,7 @@ export default {
                 }
                 console.log('Error');
             });
+
         },
         scrollToEnd() {
             this.$refs['messages'].scrollTop = this.$refs['messages'].scrollHeight;
