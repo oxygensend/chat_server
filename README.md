@@ -14,7 +14,6 @@ Chat uses lazy_loading, means that  all messages are not stored on the server, b
 
 ## Check out my app
 https://russian-messenger.herokuapp.com/login 
-### There is a bug on some devices with scrolling, I mean when scroll is down and the new message came user is not automatically scrolled to this message - IN PROGRESS
 
 
 ## Stack
@@ -35,3 +34,5 @@ To run tests:
  -  PHP
 `php aritsan test / vendor/bin/phpunit`
  - Vue `npm test`
+
+Not all test for vue are done, I had problem with mocking pusher - workin on it
